@@ -18,6 +18,6 @@ public class Main {
         Dice cDice = new Dice(0,0);
         Dice pDice = new Dice(0,0);
 
-       new Game(player, computer, 1, cDice, pDice);
+       new Game(player, computer, 10, cDice, pDice);
     }
 }

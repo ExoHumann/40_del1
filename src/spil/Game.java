@@ -34,6 +34,17 @@ public class Game {
             while (computer.getScore() < 40 && player.getScore() < 40) {
                 player.setScore(player.getScore() + pDice.roll());
                 computer.setScore(computer.getScore() + cDice.roll());
+
+                if (pDice.getEns()) {
+                    player.setScore(player.getScore() + pDice.roll());
+                    System.out.println(pDice.getSum() + " " + player.getName());
+                } else if (cDice.getEns()) {
+
+                    computer.setScore(computer.getScore() + cDice.roll());
+                    System.out.println(cDice.getSum() + " " + computer.getName());
+                }
+
+
                 System.out.println(player.getName() + " " + pDice.getDice1() + "+" + pDice.getDice2() + "=" + pDice.getSum() + " Score= " + player.getScore());
                 System.out.println(computer.getName() + " " + cDice.getDice1() + "+" + cDice.getDice2() + "=" + cDice.getSum() + " Score= " + computer.getScore());
 
@@ -52,6 +63,6 @@ public class Game {
             computer.setScore(0);
         }
 
+    }}
 
-    }
-}
+
