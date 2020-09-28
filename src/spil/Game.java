@@ -38,14 +38,18 @@ public class Game {
                 System.out.println(computer.getName() + " " + cDice.getDice1() + "+" + cDice.getDice2() + "=" + cDice.getSum() + " Score= " + computer.getScore());
 
                 if (pDice.getEns()) {
+                    if(pDice.getDice1() == 1){
+                        player.setScore(0);
+                    }
                     player.setScore(player.getScore() + pDice.roll());
                     System.out.println(player.getName() + " " + pDice.getSum() + " Score " + player.getScore());
                 } else if (cDice.getEns()) {
-
+                    if(cDice.getDice1() == 1){
+                        computer.setScore(0);
+                    }
                     computer.setScore(computer.getScore() + cDice.roll());
                     System.out.println(computer.getName() + " " + cDice.getSum()  + " Score " + computer.getScore());
                 }
-
             }
 
             if (player.getScore() > computer.getScore()) {
