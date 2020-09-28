@@ -10,8 +10,8 @@ public class Gui {
     static GUI_Field[] fields;
     static GUI_Player player1;
     static GUI_Player player2;
-    static boolean hasReachedGoalP1 =false;
-    static boolean hasReachedGoalP2 =false;
+    static public boolean hasReachedGoalP1 =false;
+    static public boolean hasReachedGoalP2 =false;
 
 
     /**
@@ -91,39 +91,54 @@ public class Gui {
      */
     public static void SetPoints(boolean player,int pointsToAdd){
         if (player){
-            int field = GetCurrentField(player1);
-            //Check if the other player is on the same field
-            if (fields[field].hasCar(player2)){
-                fields[field].removeAllCars(); //Remove all the cars from the field
-                fields[field].setCar(player2,true); //Add the second player back onto the field
-            }
-            else{
-                fields[field].removeAllCars(); //Remove all the cars from the field
-            }
-            if(field+pointsToAdd>=40){
-                fields[39].setCar(player1,true);
+            if(!hasReachedGoalP1){
+                int field = GetCurrentField(player1);
+                //Check if the other player is on the same field
+                if (fields[field].hasCar(player2)){
+                    fields[field].removeAllCars(); //Remove all the cars from the field
+                    fields[field].setCar(player2,true); //Add the second player back onto the field
+                }
+                else{
+                    fields[field].removeAllCars(); //Remove all the cars from the field
+                }
+                if(field+pointsToAdd>=40){
+                    fields[39].setCar(player1,true);
+                    player1.setBalance(40);
+                    hasReachedGoalP1 = true;
+                }else{
+                    fields[field+pointsToAdd].setCar(player1,true); //Update the score tracker of player 1
+                    player1.setBalance(field+pointsToAdd); //Update the score balance of player 1
+                    hasReachedGoalP1 = false;
+                }
             }else{
-                fields[field+pointsToAdd].setCar(player1,true); //Update the score tracker of player 1
-                player1.setBalance(field+pointsToAdd); //Update the score balance of player 1
-                hasReachedGoalP1 = true;
+                fields[39].setCar(player2,true);
             }
+
 
         }
         else if(!player){
-            int field = GetCurrentField(player2);
-            if (fields[field].hasCar(player1)){
-                fields[field].removeAllCars();
-                fields[field].setCar(player1,true);
-            }
-            else{
-                fields[field].removeAllCars();
-            }
-            if(field+pointsToAdd>=40){
-                fields[39].setCar(player2,true);
+            if(!hasReachedGoalP2){
+                int field = GetCurrentField(player2);
+                if (fields[field].hasCar(player1)){
+                    fields[field].removeAllCars();
+                    fields[field].setCar(player1,true);
+                }
+                else{
+                    fields[field].removeAllCars();
+                }
+                if(field+pointsToAdd>=40){
+                    fields[39].setCar(player2,true);
+                    player2.setBalance(40);
+                    hasReachedGoalP2 = true;
+                }else{
+                    fields[field+pointsToAdd].setCar(player2,true); //Update the score tracker of player 2
+                    player2.setBalance(field+pointsToAdd); //Update the score balance of player 2
+                    hasReachedGoalP2 = false;
+                }
             }else{
-                fields[field+pointsToAdd].setCar(player2,true); //Update the score tracker of player 1
-                player2.setBalance(field+pointsToAdd); //Update the score balance of player 1
+                fields[39].setCar(player2,true);
             }
+
         }
     }
 
