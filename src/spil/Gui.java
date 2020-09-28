@@ -10,12 +10,15 @@ public class Gui {
     static GUI_Field[] fields;
     static GUI_Player player1;
     static GUI_Player player2;
+    static boolean hasReachedGoalP1 =false;
+    static boolean hasReachedGoalP2 =false;
+
 
     /**
      * Creates and returns GUI object with 2 players
      * @return GUI
      */
-    public static gui_main.GUI CreateGUI(){
+    public Gui(){
         fields = new GUI_Field[40];
 
         GUI_Street street = new GUI_Street(); //Create new empty street tile
@@ -46,7 +49,8 @@ public class Gui {
         gui.addPlayer(player2);
         gui.addPlayer(player1);
 
-        return gui;
+        this.gui = gui;
+        //return gui;
     }
 
     /**
@@ -60,14 +64,15 @@ public class Gui {
 
         if (player){
             selection = gui.getUserLeftButtonPressed(player1.getName()+", do you want to roll dice?","Yes","No");
+            return selection;
         }
         else if(!player){
             selection = gui.getUserLeftButtonPressed(player2.getName()+", do you want to roll dice?","Yes","No");
-
+            return selection;
         }
 
-
         return selection;
+
     }
 
     /**
@@ -95,8 +100,14 @@ public class Gui {
             else{
                 fields[field].removeAllCars(); //Remove all the cars from the field
             }
-            fields[field+pointsToAdd].setCar(player1,true); //Update the score tracker of player 1
-            player1.setBalance(field+pointsToAdd); //Update the score balance of player 1
+            if(field+pointsToAdd>=40){
+                fields[39].setCar(player1,true);
+            }else{
+                fields[field+pointsToAdd].setCar(player1,true); //Update the score tracker of player 1
+                player1.setBalance(field+pointsToAdd); //Update the score balance of player 1
+                hasReachedGoalP1 = true;
+            }
+
         }
         else if(!player){
             int field = GetCurrentField(player2);
@@ -107,8 +118,12 @@ public class Gui {
             else{
                 fields[field].removeAllCars();
             }
-            fields[field+pointsToAdd].setCar(player2,true);
-            player2.setBalance(field+pointsToAdd);
+            if(field+pointsToAdd>=40){
+                fields[39].setCar(player2,true);
+            }else{
+                fields[field+pointsToAdd].setCar(player2,true); //Update the score tracker of player 1
+                player2.setBalance(field+pointsToAdd); //Update the score balance of player 1
+            }
         }
     }
 
@@ -176,6 +191,15 @@ public class Gui {
             gui.showMessage(player2.getName()+" You Win!");
         }
 
+    }
+
+    public static int GetScore(boolean player){
+        if (player){
+            return player1.getBalance();
+        }
+        else {
+            return player2.getBalance();
+        }
     }
 
 }

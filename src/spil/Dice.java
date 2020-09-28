@@ -22,7 +22,7 @@ public class Dice {
         return getSum();
     }
 
-    boolean getEns(){
+    boolean getEquals(){
         return dice1 == dice2;
     }
 
