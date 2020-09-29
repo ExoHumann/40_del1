@@ -1,8 +1,8 @@
 package spil;
 
 public class Game {
-   // private final Player player;
-   // private final Player computer;
+    private final Player player1;
+    private final Player player2;
     //private final int gamesAmount;
     private final Dice cDice;
     private final Dice pDice;
@@ -12,9 +12,9 @@ public class Game {
     private boolean gameEnd =false;
 
 
-    public Game(Gui gui,int games, Dice cDice, Dice pDice){
-       /* this.player = player;
-        this.computer = computer;*/
+    public Game(Gui gui,int games, Dice cDice, Dice pDice,Player player1,Player player2){
+        this.player1 = player1;
+        this.player2 = player2;
         this.mainGui = gui;
         this.cDice = cDice;
         this.pDice = pDice;
@@ -33,101 +33,90 @@ public class Game {
 
 
     private void play() {
-        boolean twoEqualsP1 = true;
 
 
         while(!gameEnd) {
             do {
                 if (mainGui.hasReachedGoalP1) {
-                    if (Gui.RollDiceAction(true)) {
+                    if (Gui.RollDiceAction(player1)) {
                         pDice.roll();
                         mainGui.ShowDice(pDice.getDice1(), pDice.getDice2());
                         if (pDice.getEquals()) {
                             //Game end
                             gameEnd = true;
-                            mainGui.GameEnd(true);
+                            mainGui.GameEnd(player1);
                         }
                         else{
-                            twoEqualsP1 = false;
-                            break;
                         }
                     }
                 } else {
-                    if (Gui.RollDiceAction(true)) {
+                    if (Gui.RollDiceAction(player1)) {
                         pDice.roll();
                         mainGui.ShowDice(pDice.getDice1(), pDice.getDice2());
                         if (pDice.getEquals()) {
                             if (pDice.getDice1() == 1 || pDice.getDice2() == 1) {
-                                mainGui.ResetPoints(true);
-                            } else if (pDice.getDice1() == 6 || pDice.getDice2() == 6) {
+                                mainGui.ResetPoints(player1);
+                            } else if (pDice.getDice1() == 6) {
                                 if (twoSixesP1) {
                                     //Player 1 rolled two sixes two times in a row
-                                    mainGui.GameEnd(true);
+                                    mainGui.GameEnd(player1);
                                     gameEnd = true;
                                 } else {
                                     twoSixesP1 = true;
                                 }
                             } else {
-                                mainGui.SetPoints(true, pDice.getSum());
-                                twoEqualsP1 = true;
+                                mainGui.SetPoints(player1, pDice.getSum());
                             }
                         } else {
-                            mainGui.SetPoints(true, pDice.getSum());
-                            twoEqualsP1 = false;
+                            mainGui.SetPoints(player1, pDice.getSum());
                         }
                     } else {
-                        twoEqualsP1 = false;
                     }
                 }
             }
-                while (twoEqualsP1 == true) ;
+                while (pDice.getEquals()) ;
 
 
-                boolean twoEqualsP2 = false;
 
                 do {
                     if (mainGui.hasReachedGoalP2) {
-                        if (Gui.RollDiceAction(true)) {
+                        if (Gui.RollDiceAction(player2)) {
                             cDice.roll();
                             mainGui.ShowDice(cDice.getDice1(), cDice.getDice2());
                             if (cDice.getEquals()) {
                                 //Game end
                                 gameEnd = true;
-                                mainGui.GameEnd(false);
+                                mainGui.GameEnd(player2);
                             }else{
-                                twoEqualsP2 = false;
-                                break;
+
                             }
                         }
                     } else {
-                        if (Gui.RollDiceAction(false)) {
+                        if (Gui.RollDiceAction(player2)) {
                             cDice.roll();
                             mainGui.ShowDice(cDice.getDice1(), cDice.getDice2());
                             if (cDice.getEquals()) {
                                 if (cDice.getDice1() == 1 || cDice.getDice2() == 1) {
-                                    mainGui.ResetPoints(false);
-                                } else if (cDice.getDice1() == 6 || cDice.getDice2() == 6) {
+                                    mainGui.ResetPoints(player2);
+                                } else if (cDice.getDice1() == 6) {
                                     if (twoSixesP2) {
-                                        //Player 1 rolled two sixes two times in a row
-                                        mainGui.GameEnd(true);
+                                        //Player 2 rolled two sixes two times in a row
+                                        mainGui.GameEnd(player2);
                                         gameEnd = true;
                                     } else {
                                         twoSixesP2 = true;
                                     }
                                 } else {
-                                    mainGui.SetPoints(false, cDice.getSum());
-                                    twoEqualsP2 = true;
+                                    mainGui.SetPoints(player2, cDice.getSum());
                                 }
                             } else {
-                                twoEqualsP2 = false;
-                                mainGui.SetPoints(false, cDice.getSum());
+                                mainGui.SetPoints(player2, cDice.getSum());
                             }
                         } else {
-                            twoEqualsP2 = false;
                         }
                     }
                 }
-                while (twoEqualsP2 == true);
+                while (cDice.getEquals());
         }
     }
 }

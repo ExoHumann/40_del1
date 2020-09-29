@@ -16,7 +16,6 @@ public class Gui {
 
     /**
      * Creates and returns GUI object with 2 players
-     * @return GUI
      */
     public Gui(){
         fields = new GUI_Field[40];
@@ -33,24 +32,24 @@ public class Gui {
         //Make the GUI with the created fields array and background color of green
         gui_main.GUI gui = new gui_main.GUI(fields,Color.green);
 
-        //Create a car for each player
-        GUI_Car car1 = new GUI_Car(Color.red,Color.red, GUI_Car.Type.CAR, GUI_Car.Pattern.FILL);
-        GUI_Car car2 = new GUI_Car(Color.blue,Color.blue, GUI_Car.Type.CAR, GUI_Car.Pattern.FILL);
-
-        //Get the player names and create player object
-        String playerName1 = gui.getUserString("Indtast spiller 1");
-        player1 = new GUI_Player(playerName1,0,car1);
-        fields[0].setCar(player1, true);
-        String playerName2 = gui.getUserString("Indtast spiller 2");
-        player2 = new GUI_Player(playerName2,0,car2);
-        fields[0].setCar(player2, true);
-
-        //Add the players to the GUI board
-        gui.addPlayer(player2);
-        gui.addPlayer(player1);
 
         this.gui = gui;
         //return gui;
+    }
+
+    public void AddPlayers(Player player1, Player player2){
+        this.player1 = player1;
+        this.player2 = player2;
+        gui.addPlayer(player1);
+        gui.addPlayer(player2);
+        fields[0].setCar(player1, true);
+        /*String playerName2 = gui.getUserString("Indtast spiller 2");
+        player2 = new GUI_Player(playerName2,0,car2);*/
+        fields[0].setCar(player2, true);
+    }
+
+    public static String GetPlayerName(){
+        return gui.getUserString("Write player name: ");
     }
 
     /**
@@ -58,20 +57,8 @@ public class Gui {
      * @param player true for player 1, false for player 2
      * @return wether or not to roll the dice.
      */
-    public static boolean RollDiceAction(boolean player){
-
-        boolean selection = false;
-
-        if (player){
-            selection = gui.getUserLeftButtonPressed(player1.getName()+", do you want to roll dice?","Yes","No");
-            return selection;
-        }
-        else if(!player){
-            selection = gui.getUserLeftButtonPressed(player2.getName()+", do you want to roll dice?","Yes","No");
-            return selection;
-        }
-
-        return selection;
+    public static boolean RollDiceAction(Player player){
+        return gui.getUserLeftButtonPressed(player.getName()+", do you want to roll dice?","Yes","No");
 
     }
 
@@ -86,11 +73,11 @@ public class Gui {
 
     /**
      * Method to update the selected players point total
-     * @param player true for player 1, false for player 2
+     * @param player player object to set points for
      * @param pointsToAdd number of points to add to the players total
      */
-    public static void SetPoints(boolean player,int pointsToAdd){
-        if (player){
+    public static void SetPoints(Player player,int pointsToAdd){
+        if (player == player1){
             if(!hasReachedGoalP1){
                 int field = GetCurrentField(player1);
                 //Check if the other player is on the same field
@@ -106,7 +93,7 @@ public class Gui {
                     player1.setBalance(40);
                     hasReachedGoalP1 = true;
                 }else{
-                    fields[field+pointsToAdd].setCar(player1,true); //Update the score tracker of player 1
+                    fields[(field+pointsToAdd)-1].setCar(player1,true); //Update the score tracker of player 1
                     player1.setBalance(field+pointsToAdd); //Update the score balance of player 1
                     hasReachedGoalP1 = false;
                 }
@@ -116,7 +103,7 @@ public class Gui {
 
 
         }
-        else if(!player){
+        else if(player == player2){
             if(!hasReachedGoalP2){
                 int field = GetCurrentField(player2);
                 if (fields[field].hasCar(player1)){
@@ -131,7 +118,7 @@ public class Gui {
                     player2.setBalance(40);
                     hasReachedGoalP2 = true;
                 }else{
-                    fields[field+pointsToAdd].setCar(player2,true); //Update the score tracker of player 2
+                    fields[(field+pointsToAdd)-1].setCar(player2,true); //Update the score tracker of player 2
                     player2.setBalance(field+pointsToAdd); //Update the score balance of player 2
                     hasReachedGoalP2 = false;
                 }
@@ -167,8 +154,8 @@ public class Gui {
      * Reset the selected players points
      * @param player true for player 1, false for player 2
      */
-    public static void ResetPoints(boolean player){
-        if(player){
+    public static void ResetPoints(Player player){
+        if(player == player1){
             int field = GetCurrentField(player1);
             if (fields[field].hasCar(player2)){
                 fields[field].removeAllCars();
@@ -180,7 +167,7 @@ public class Gui {
             fields[0].setCar(player1,true);
             player1.setBalance(0);
         }
-        else if(!player){
+        else if(player == player2){
             int field = GetCurrentField(player2);
             if (fields[field].hasCar(player1)){
                 fields[field].removeAllCars();
@@ -198,23 +185,10 @@ public class Gui {
      * Shows game end message, the selected player wins
      * @param player true for player 1, false for player 2
      */
-    public static void GameEnd(boolean player){
-        if (player){
-            gui.showMessage(player1.getName()+" You Win!");
-        }
-        else if(!player){
-            gui.showMessage(player2.getName()+" You Win!");
-        }
+    public static void GameEnd(Player player){
+            gui.showMessage(player.getName()+" You Win!");
 
-    }
 
-    public static int GetScore(boolean player){
-        if (player){
-            return player1.getBalance();
-        }
-        else {
-            return player2.getBalance();
-        }
     }
 
 }
