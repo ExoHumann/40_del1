@@ -43,7 +43,8 @@ public class Game {
                     }
                     player.setScore(player.getScore() + pDice.roll());
                     System.out.println(player.getName() + " " + pDice.getSum() + " Score " + player.getScore());
-                } else if (cDice.getEns()) {
+                }
+                if (cDice.getEns()) {
                     if(cDice.getDice1() == 1){
                         computer.setScore(0);
                     }
