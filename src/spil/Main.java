@@ -26,8 +26,8 @@ public class Main {
         GUI_Car car1 = new GUI_Car(Color.red,Color.red, GUI_Car.Type.CAR, GUI_Car.Pattern.FILL);
         GUI_Car car2 = new GUI_Car(Color.blue,Color.blue, GUI_Car.Type.CAR, GUI_Car.Pattern.FILL);
 
-        Player player1 = new Player(gameGui.GetPlayerName(),0,car1);
-        Player player2 = new Player(gameGui.GetPlayerName(),0,car2);
+        Player player1 = new Player(Gui.GetPlayerName(),0,car1);
+        Player player2 = new Player(Gui.GetPlayerName(),0,car2);
         gameGui.AddPlayers(player1,player2);
 
 

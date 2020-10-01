@@ -6,10 +6,10 @@ import java.awt.*;
 
 public class Gui {
 
-    static gui_main.GUI gui;
+    static GUI gui;
     static GUI_Field[] fields;
-    static GUI_Player player1;
-    static GUI_Player player2;
+    static Player player1;
+    static Player player2;
     static public boolean hasReachedGoalP1 =false;
     static public boolean hasReachedGoalP2 =false;
 
@@ -29,17 +29,14 @@ public class Gui {
         //Set the subText of the first field to "start"
         fields[0].setSubText("Start");
 
-        //Make the GUI with the created fields array and background color of green
-        gui_main.GUI gui = new gui_main.GUI(fields,Color.green);
+        //Make the GUI with the created fields array and background color of green and return gui;
+        Gui.gui = new GUI(fields,Color.green);
 
-
-        this.gui = gui;
-        //return gui;
     }
 
     public void AddPlayers(Player player1, Player player2){
-        this.player1 = player1;
-        this.player2 = player2;
+        Gui.player1 = player1;
+        Gui.player2 = player2;
         gui.addPlayer(player1);
         gui.addPlayer(player2);
         fields[0].setCar(player1, true);
@@ -48,9 +45,7 @@ public class Gui {
         fields[0].setCar(player2, true);
     }
 
-    public static String GetPlayerName(){
-        return gui.getUserString("Write player name: ");
-    }
+    public static String GetPlayerName(){ return gui.getUserString("Write player name: "); }
 
     /**
      * Asks the selected player to roll the dice
@@ -134,7 +129,7 @@ public class Gui {
      * @param player The player to look for on the board
      * @return Current field number
      */
-    private static int GetCurrentField(GUI_Player player){
+    private static int GetCurrentField(Player player){
         int currentField = 0;
 
         //Checks all tiles in the field array, for the selected player.
@@ -142,9 +137,6 @@ public class Gui {
             if(fields[i].hasCar(player)){
                 currentField = i; //If the player has been found, save the current field number, and break
                 break;
-            }
-            else{
-                //NOTHING
             }
         }
         return currentField;
@@ -187,8 +179,5 @@ public class Gui {
      */
     public static void GameEnd(Player player){
             gui.showMessage(player.getName()+" You Win!");
-
-
     }
-
 }

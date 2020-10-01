@@ -37,40 +37,37 @@ public class Game {
 
         while(!gameEnd) {
             do {
-                if (mainGui.hasReachedGoalP1) {
+                if (Gui.hasReachedGoalP1) {
                     if (Gui.RollDiceAction(player1)) {
                         pDice.roll();
-                        mainGui.ShowDice(pDice.getDice1(), pDice.getDice2());
+                        Gui.ShowDice(pDice.getDice1(), pDice.getDice2());
                         if (pDice.getEquals()) {
                             //Game end
                             gameEnd = true;
-                            mainGui.GameEnd(player1);
-                        }
-                        else{
+                            Gui.GameEnd(player1);
                         }
                     }
                 } else {
                     if (Gui.RollDiceAction(player1)) {
                         pDice.roll();
-                        mainGui.ShowDice(pDice.getDice1(), pDice.getDice2());
+                        Gui.ShowDice(pDice.getDice1(), pDice.getDice2());
                         if (pDice.getEquals()) {
                             if (pDice.getDice1() == 1 || pDice.getDice2() == 1) {
-                                mainGui.ResetPoints(player1);
+                                Gui.ResetPoints(player1);
                             } else if (pDice.getDice1() == 6) {
                                 if (twoSixesP1) {
                                     //Player 1 rolled two sixes two times in a row
-                                    mainGui.GameEnd(player1);
+                                    Gui.GameEnd(player1);
                                     gameEnd = true;
                                 } else {
                                     twoSixesP1 = true;
                                 }
                             } else {
-                                mainGui.SetPoints(player1, pDice.getSum());
+                                Gui.SetPoints(player1, pDice.getSum());
                             }
                         } else {
-                            mainGui.SetPoints(player1, pDice.getSum());
+                            Gui.SetPoints(player1, pDice.getSum());
                         }
-                    } else {
                     }
                 }
             }
@@ -79,40 +76,37 @@ public class Game {
 
 
                 do {
-                    if (mainGui.hasReachedGoalP2) {
+                    if (Gui.hasReachedGoalP2) {
                         if (Gui.RollDiceAction(player2)) {
                             cDice.roll();
-                            mainGui.ShowDice(cDice.getDice1(), cDice.getDice2());
+                            Gui.ShowDice(cDice.getDice1(), cDice.getDice2());
                             if (cDice.getEquals()) {
                                 //Game end
                                 gameEnd = true;
-                                mainGui.GameEnd(player2);
-                            }else{
-
+                                Gui.GameEnd(player2);
                             }
                         }
                     } else {
                         if (Gui.RollDiceAction(player2)) {
                             cDice.roll();
-                            mainGui.ShowDice(cDice.getDice1(), cDice.getDice2());
+                            Gui.ShowDice(cDice.getDice1(), cDice.getDice2());
                             if (cDice.getEquals()) {
                                 if (cDice.getDice1() == 1 || cDice.getDice2() == 1) {
-                                    mainGui.ResetPoints(player2);
+                                    Gui.ResetPoints(player2);
                                 } else if (cDice.getDice1() == 6) {
                                     if (twoSixesP2) {
                                         //Player 2 rolled two sixes two times in a row
-                                        mainGui.GameEnd(player2);
+                                        Gui.GameEnd(player2);
                                         gameEnd = true;
                                     } else {
                                         twoSixesP2 = true;
                                     }
                                 } else {
-                                    mainGui.SetPoints(player2, cDice.getSum());
+                                    Gui.SetPoints(player2, cDice.getSum());
                                 }
                             } else {
-                                mainGui.SetPoints(player2, cDice.getSum());
+                                Gui.SetPoints(player2, cDice.getSum());
                             }
-                        } else {
                         }
                     }
                 }
