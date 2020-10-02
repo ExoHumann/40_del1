@@ -10,8 +10,8 @@ public class GameGUI {
     static GUI_Field[] fields;
     static Player player1;
     static Player player2;
-    static public boolean hasReachedGoalP1 =false;
-    static public boolean hasReachedGoalP2 =false;
+    static public boolean hasReachedGoalP1 = false;
+    static public boolean hasReachedGoalP2 = false;
 
 
     /**
@@ -34,16 +34,30 @@ public class GameGUI {
 
     }
 
+    /**
+     * Add the supplied players to the GUI
+     * @param player1 first player to add
+     * @param player2 second player to add
+     */
     public void AddPlayers(Player player1, Player player2){
+        //Saves the players to local variables
         GameGUI.player1 = player1;
         GameGUI.player2 = player2;
+        //Add the players to the GUI
         gui.addPlayer(player1);
         gui.addPlayer(player2);
+        //Sets each players car to start field.
         fields[0].setCar(player1, true);
         fields[0].setCar(player2, true);
     }
 
-    public static String GetPlayerName(){ return gui.getUserString("Write player name: "); }
+    /**
+     * Prompts the gui for player name
+     * @return player name
+     */
+    public static String GetPlayerName(){
+        return gui.getUserString("Write player name: ");
+    }
 
     /**
      * Asks the selected player to roll the dice
@@ -51,6 +65,7 @@ public class GameGUI {
      * @return wether or not to roll the dice.
      */
     public static boolean rollDiceAction(Player player){
+        //Return the result of the prompt
         return gui.getUserLeftButtonPressed(player.getName()+", do you want to roll dice?","Yes","No");
 
     }
@@ -61,6 +76,7 @@ public class GameGUI {
      * @param dice2 number on the second dice
      */
     public static void showDice(int dice1, int dice2){
+        //Show the dice on the GUI at random positions
         gui.setDice(dice1,dice2);
     }
 
@@ -96,6 +112,7 @@ public class GameGUI {
 
 
         }
+        //The code is the same for player2
         else if(player == player2){
             if(!hasReachedGoalP2){
                 int field = getCurrentField(player2);
@@ -141,8 +158,8 @@ public class GameGUI {
     }
 
     /**
-     * Reset the selected players points
-     * @param player true for player 1, false for player 2
+     * Reset and move the selected player to start
+     * @param player player to move/reset
      */
     public static void moveToStart(Player player){
         if(player == player1){
@@ -176,6 +193,7 @@ public class GameGUI {
      * @param player true for player 1, false for player 2
      */
     public static void gameEnd(Player player){
+        //Show who won on the GUI
         gui.showMessage(player.getName()+" You Win!");
     }
 }
